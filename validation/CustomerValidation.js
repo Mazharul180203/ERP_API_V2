@@ -3,7 +3,7 @@ import Joi from "joi";
 export const CustomerValidation = Joi.object({
     name: Joi.string().required(),
     customertypeid: Joi.number().integer().required(),
-    mobno:Joi.string().required(),
+    mobileno:Joi.string().required(),
     address:Joi.string().required(),
     description:Joi.string().required()
 });

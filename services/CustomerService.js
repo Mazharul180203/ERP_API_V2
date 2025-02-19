@@ -26,7 +26,7 @@ const CustomertypeService = async (req) => {
     }
 }
 const CustomerService = async (req) => {
-    const { name,customertypeid, mobno, address, description} = req.body;
+    const { name,customertypeid, mobileno, address, description} = req.body;
     const { error }  = CustomerValidation.validate(req.body);
     if (error) {
         return { code: 400,status:"fail",message: "Validation Error", data: error.details[0].message };
@@ -40,8 +40,8 @@ const CustomerService = async (req) => {
             return { code: 403, status:"fail",  message: "Customer is already exists." };
         }
         const result = await pool.query(
-                'INSERT INTO customer (name,customertypeid,mobno, address, description) VALUES ($1,$2,$3,$4,$5) RETURNING *;',
-            [name, customertypeid, mobno, address, description]
+                'INSERT INTO customer (name,customertypeid, mobileno, address, description) VALUES ($1,$2,$3,$4,$5) RETURNING *;',
+            [name, customertypeid, mobileno, address, description]
         );
         return { code: 201, status:"success", message: "Successfully Created", data: result.rows };
     } catch (e) {
