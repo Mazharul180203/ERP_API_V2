@@ -6,6 +6,7 @@ import * as ProductController from "../controllers/ProductController.js";
 import * as CustomerController from "../controllers/CustomerController.js";
 import * as SaleController from "../controllers/SaleController.js";
 import * as DropdownController from "../controllers/DropdownController.js";
+import * as Userdetails from "../controllers/Userdetails.js";
 
 
 const router = express.Router();
@@ -14,6 +15,10 @@ const router = express.Router();
 router.post('/Registration', AuthController.Registration);
 router.post('/VerifyLogin',AuthController.VerifyLogin);
 router.post('/AuthDestroy',AuthController.AuthDestroy);
+
+router.post('/userdetails',AuthVarification,Userdetails.userdetails);
+
+
 
 router.post('/category',AuthVarification,ProductController.category)
 router.post('/brands',AuthVarification,ProductController.brands)
