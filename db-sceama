@@ -1,0 +1,175 @@
+CREATE TABLE user (
+       id SERIAL PRIMARY KEY,
+       email VARCHAR(100) NOT NULL,
+       password VARCHAR(100) NOT NULL,
+       createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+       updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+
+CREATE TABLE category (
+       id SERIAL PRIMARY KEY,
+       categoryName VARCHAR(100) NOT NULL,
+       createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+       updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+CREATE TABLE brands (
+       id SERIAL PRIMARY KEY,
+       brandName VARCHAR(100) NOT NULL,
+       createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+       updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE units (
+          id SERIAL PRIMARY KEY,
+          unitName VARCHAR(100) NOT NULL,
+          unitsLabel VARCHAR(100) NOT NULL,
+          relation VARCHAR(100) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE supplier (
+          id SERIAL PRIMARY KEY,
+          supplierName VARCHAR(100) NOT NULL,
+          contactPerson VARCHAR(100) NOT NULL,
+          mobileNumber VARCHAR(20) NOT NULL,
+          address VARCHAR(255) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+CREATE TABLE products (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(100) NOT NULL,
+          categoryid INT NOT NULL REFERENCES category(id) ON DELETE CASCADE,
+          brandid INT NOT NULL REFERENCES brands(id) ON DELETE CASCADE,
+          unitid INT NOT NULL REFERENCES units(id) ON DELETE CASCADE,
+          description VARCHAR(100) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE purchases (
+          id SERIAL PRIMARY KEY,
+          productid INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+          supplierid INT NOT NULL REFERENCES supplier(id) ON DELETE CASCADE,
+          purchaseqty DECIMAL(10, 2) NOT NULL,
+          priceperunit DECIMAL(10, 2) NOT NULL,
+          totalamount DECIMAL(10, 2) NOT NULL,
+          totalpurchaseqty DECIMAL(10, 2) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE stock (
+          id SERIAL PRIMARY KEY,
+          productid INT UNIQUE NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+          supplierid INT NOT NULL REFERENCES supplier(id) ON DELETE CASCADE,
+          purchaseqty DECIMAL(10, 2) NOT NULL,
+          priceperunit DECIMAL(10, 2) NOT NULL,
+          totalpurchaseqty DECIMAL(10, 2) NOT NULL,
+          totalamount DECIMAL(10, 2) NOT NULL,
+          updatetotalpurchaseqty DECIMAL(10, 2) NOT NULL,
+          priceavg DECIMAL(10, 2) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE purchasesuppliertrack (
+          id SERIAL PRIMARY KEY,
+          supplierid INT NOT NULL REFERENCES supplier(id) ON DELETE CASCADE,
+          currbalance DECIMAL(10, 2) NOT NULL,
+          paymenttype VARCHAR(30) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE supplierledger (
+          id SERIAL PRIMARY KEY,
+          supplierid INT NOT NULL REFERENCES supplier(id) ON DELETE CASCADE,
+          paymenttype VARCHAR(30) NOT NULL,
+          credit DECIMAL(10,2) NOT NULL,
+          debit DECIMAL(10,2) NOT NULL,
+          balance DECIMAL(10,2) NOT NULL,
+          voucherno VARCHAR(30) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE customertype (
+          id SERIAL PRIMARY KEY,
+          typeName VARCHAR(30) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE customer (
+          id SERIAL PRIMARY KEY,
+          name VARCHAR(30) NOT NULL,
+          customertypeid INT NOT NULL REFERENCES customertype(id) ON DELETE CASCADE,
+          mobileno VARCHAR(20) NOT NULL,
+          address VARCHAR(200) NOT NULL,
+          description VARCHAR(200) NULL ,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE sales (
+          id SERIAL PRIMARY KEY,
+          productid INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+          customerid INT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+          salesqty DECIMAL(10,2) NOT NULL,
+          discount DECIMAL(10,2) NOT NULL,
+          transportcost DECIMAL(10,2) NOT NULL,
+          salesprice DECIMAL(10,2) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+CREATE TABLE salescustomertracker (
+          id SERIAL PRIMARY KEY,
+          customerid INT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+          transportcost DECIMAL(10,2) NOT NULL,
+          balance DECIMAL(10,2) NOT NULL,
+          paymenttype VARCHAR(30) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+CREATE TABLE customerledger (
+          id SERIAL PRIMARY KEY,
+          customerid INT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+          paymenttype DECIMAL(10,2) NOT NULL,
+          credit DECIMAL(10,2) NOT NULL,
+          debit DECIMAL(10,2) NOT NULL,
+          balance DECIMAL(10,2) NOT NULL,
+          voucherno VARCHAR(30) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE customerdetails (
+          id SERIAL PRIMARY KEY,
+          customerid INT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+          customername VARCHAR(100) NOT NULL,
+          mobileno VARCHAR(20) NOT NULL,
+          address VARCHAR(200) NOT NULL,
+          description VARCHAR(200) NULL ,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+CREATE TABLE transaction (
+          id SERIAL PRIMARY KEY,
+          supplierid INT NOT NULL REFERENCES supplier(id) ON DELETE CASCADE,
+          balance DECIMAL(10,2) NOT NULL,
+          transactiontype VARCHAR(20) NOT NULL,
+          transactionmethod VARCHAR(20) NOT NULL,
+          payment DECIMAL(10,2) NOT NULL,
+          currbalance DECIMAL(10,2) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
