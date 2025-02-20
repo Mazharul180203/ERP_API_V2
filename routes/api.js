@@ -17,7 +17,7 @@ router.post('/VerifyLogin',AuthController.VerifyLogin);
 router.post('/AuthDestroy',AuthController.AuthDestroy);
 
 router.post('/userdetails',AuthVarification,Userdetails.userdetails);
-
+router.post('/sendmail',AuthVarification,Userdetails.sendmail)
 
 
 router.post('/category',AuthVarification,ProductController.category)

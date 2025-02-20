@@ -1,6 +1,7 @@
 import {userinfoValidation} from "../validation/userValidation.js";
 import path from "path";
 import {pool} from "../db.js";
+import EmailSend from "../utility/EmailHelper.js";
 
 
 const userdetailsinfoService = async (req) => {
@@ -45,4 +46,17 @@ const userdetailsinfoService = async (req) => {
 };
 
 
-export { userdetailsinfoService };
+const sendmailService = async (req) => {
+    const { EmailTo,EmailText,EmailSubject} = req.body;
+    console.log("Here is the Email : ",EmailTo,EmailText);
+    try {
+        let res = await EmailSend(EmailTo,EmailText,EmailSubject)
+
+        return { code: 200, status: "success", message: "mail send Successfully", data: res };
+    } catch (e) {
+        console.error("Error details:", e);
+        return { code: 500, status: "fail", message: "Server Error" };
+    }
+};
+
+export { userdetailsinfoService , sendmailService};
