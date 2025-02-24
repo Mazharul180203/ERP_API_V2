@@ -173,3 +173,11 @@ CREATE TABLE transaction (
           createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
           updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+CREATE TABLE role (
+                      id SERIAL PRIMARY KEY,
+                      roleName varchar(100) NOT NULL unique ,
+                      roleDescription VARCHAR(255) NOT NULL,
+                      createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                      updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
