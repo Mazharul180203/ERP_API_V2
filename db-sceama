@@ -175,9 +175,26 @@ CREATE TABLE transaction (
 );
 
 CREATE TABLE role (
-                      id SERIAL PRIMARY KEY,
-                      roleName varchar(100) NOT NULL unique ,
-                      roleDescription VARCHAR(255) NOT NULL,
-                      createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-                      updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+          id SERIAL PRIMARY KEY,
+          roleName varchar(100) NOT NULL unique ,
+          roleDescription VARCHAR(255) NOT NULL,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+CREATE TABLE permission (
+          id SERIAL PRIMARY KEY,
+          permissionName varchar(100) NOT NULL unique ,
+          createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+          updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+CREATE TABLE userrole (
+          userId INT REFERENCES "users"(id) ON DELETE CASCADE, -- Foreign Key to User table
+          roleId INT REFERENCES "role"(id) ON DELETE CASCADE, -- Foreign Key to Role table
+          PRIMARY KEY (userId, roleId) -- Composite Primary Key
+
+);
+CREATE TABLE roletopermission (
+            roleId INT REFERENCES "role"(id) ON DELETE CASCADE, -- Foreign Key to Role table
+            permissionId INT REFERENCES permission(id) ON DELETE CASCADE, -- Foreign Key to Permission table
+            PRIMARY KEY (roleId, permissionId) -- Composite Primary Key
 );
