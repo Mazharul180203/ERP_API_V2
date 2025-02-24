@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5040   ;
 app.use(cors({origin: 'http://localhost:5173', credentials: true}));
 app.use(helmet());
 // app.use(hpp());
