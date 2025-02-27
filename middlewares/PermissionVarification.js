@@ -14,7 +14,7 @@ export const checkPermission = (permission) => async (req, res, next) => {
     `;
     const result = await pool.query(query, [userId, permission]);
     if (result.rows.length === 0) {
-        return res.status(403).json({ message: 'Permission denied' });
+        return res.status(403).json({ status: 'fail', message: 'Permission denied', data:[]});
     }
     next();
 };
