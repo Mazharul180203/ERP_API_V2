@@ -190,7 +190,7 @@ CREATE TABLE permission (
 CREATE TABLE userrole (
           userId INT REFERENCES "users"(id) ON DELETE CASCADE, -- Foreign Key to User table
           roleId INT REFERENCES "role"(id) ON DELETE CASCADE, -- Foreign Key to Role table
-          PRIMARY KEY (userId, roleId) -- Composite Primary Key
+          PRIMARY KEY (userId, roleId)
 
 );
 CREATE TABLE roletopermission (

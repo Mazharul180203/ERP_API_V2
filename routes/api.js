@@ -7,6 +7,7 @@ import * as CustomerController from "../controllers/CustomerController.js";
 import * as SaleController from "../controllers/SaleController.js";
 import * as DropdownController from "../controllers/DropdownController.js";
 import * as Userdetails from "../controllers/Userdetails.js";
+import {checkPermission} from "../middlewares/PermissionVarification.js";
 
 
 const router = express.Router();
@@ -21,7 +22,7 @@ router.post('/sendmail',AuthVarification,Userdetails.sendmail)
 
 
 router.post('/category',AuthVarification,ProductController.category)
-router.post('/brands',AuthVarification,ProductController.brands)
+router.post('/brands',AuthVarification,checkPermission('can_delete'),ProductController.brands)
 router.post('/units',AuthVarification,ProductController.units)
 router.post('/product',AuthVarification,ProductController.product)
 router.post('/stock',AuthVarification,ProductController.stock)

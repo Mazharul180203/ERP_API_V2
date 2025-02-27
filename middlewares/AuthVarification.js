@@ -1,6 +1,5 @@
 import {DecodeToken} from "../utility/TokenHelper.js";
 
-
 export default (req, res, next) => {
     let token = req.headers['token'] || req.cookies['token'];
 
@@ -16,3 +15,4 @@ export default (req, res, next) => {
         next();
     }
 };
+
