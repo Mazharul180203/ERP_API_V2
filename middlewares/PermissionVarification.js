@@ -7,7 +7,7 @@ export const checkPermission = (permission) => async (req, res, next) => {
     }
     const query = `    
         SELECT p.permissionname 
-        FROM permission p
+        FROM permission p 
         JOIN roletopermission rp ON p.id = rp.permissionid
         JOIN role ur ON rp.roleid = ur.id
         WHERE ur.id = $1 AND p.permissionname = $2
