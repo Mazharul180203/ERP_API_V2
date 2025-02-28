@@ -64,7 +64,7 @@ const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3000 });
 app.use(limiter);
 app.use('/api/v1', router);
 app.use(express.static(path.join(__dirname, "uploadFile")));
-app.use(express.static('frontend/build'));
+app.use(express.static('frontend/build'));  // make a change when need to change
 // app.get('*', (req, res) => {
 //     res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
 // });
