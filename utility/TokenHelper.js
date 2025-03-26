@@ -7,8 +7,8 @@ export const EncodeToken = (email, user_id) => {
 };
 
 export const GenerateRefreshToken = (email, user_id) => {
-    return jwt.sign(
-        {email, user_id}, JWT_SECRET, REFRESH_TOKEN_EXPIRY);
+    const PAYLOAD = { email, user_id };
+    return jwt.sign(PAYLOAD, JWT_SECRET, REFRESH_TOKEN_EXPIRY);
 };
 
 export const DecodeToken = (token) => {

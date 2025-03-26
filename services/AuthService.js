@@ -72,19 +72,17 @@ const RefreshtokenService = async (req) => {
         if(decoded === null){
             return {code:401,  status:"fail", message: "Refresh token is Invalid",};
         }
-        const existtonken = await pool.query(
-            'SELECT * FROM user_tokens WHERE refreshtoken = $1 AND userid = $2 AND expires_at > now()',
+        const tokenRecord = await pool.query(
+            `SELECT * FROM user_tokens WHERE refreshtoken = $1 AND userid = $2 AND expires_at > NOW()`,
             [refreshToken, decoded.user_id]
         );
 
-        if (existtonken.rows.length === 0) {
+
+        if (tokenRecord.rows.length === 0) {
             return {code: 403, status: "fail", message: "Refresh token not found or expired.",};
         }
 
-        const newAccessToken = EncodeToken({
-            email: decoded.email,
-            user_id: decoded.user_id
-        });
+        const newAccessToken = EncodeToken(decoded.email,decoded.user_id);
 
         return {code: 200, status: "success", token: newAccessToken, message: "Successfully Entered System.",};
     } catch (error) {

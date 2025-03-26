@@ -9,7 +9,6 @@ export const Registration = async (req,res) =>{
 }
 export const VerifyLogin = async (req,res) =>{
     let response = await VerifyLoginService(req);
-    console.log("verifylogin :",response);
     if (response['code'] === 200) {
         let cookieOption={expires:new Date(Date.now() + 15 * 60 * 1000), httpOnly:false, sameSite: 'strict'}
         let refreshOption={expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), httpOnly:false, sameSite: 'strict'};
@@ -26,7 +25,7 @@ export const refreshtoken = async (req,res) =>{
     if (response['code'] === 200) {
         let cookieOption={expires:new Date(Date.now()+2*24*60*60*1000), httpOnly:false}
         res.cookie('token',response['token'],cookieOption, { httpOnly: true, sameSite: 'strict'});
-        return res.status(response.code).json({status: response.status, message: response.message, token: response.token || null, refreshToken: response.refreshToken || null});
+        return res.status(response.code).json({status: response.status, message: response.message, token: response.token || null});
     } else {
         res.status(response.code).json({status: response.status, message: response.message, token: response.token || null});
     }
