@@ -4,7 +4,7 @@ export default (req, res, next) => {
     let token = req.headers['token'] || req.cookies['token'];
 
     let decoded = DecodeToken(token);
-
+    console.log("decoded token", decoded);
     if (decoded === null) {
         return res.status(401).json({ status: "fail", message: "Unauthorized" });
     } else {

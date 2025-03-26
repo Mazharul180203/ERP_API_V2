@@ -15,6 +15,7 @@ const router = express.Router();
 //Authentication
 router.post('/Registration', AuthController.Registration);
 router.post('/VerifyLogin',AuthController.VerifyLogin);
+router.post('/refreshtoken',AuthController.refreshtoken)
 router.post('/AuthDestroy',AuthController.AuthDestroy);
 
 router.post('/userdetails',AuthVarification,checkPermission('userdetails'),Userdetails.userdetails);

@@ -6,6 +6,15 @@ CREATE TABLE user (
        updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE user_tokens (
+      id SERIAL PRIMARY KEY,
+      userId INTEGER NOT NULL REFERENCES users(id),
+      refreshToken TEXT NOT NULL,
+      expires_at TIMESTAMP NOT NULL,
+      createdat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+      updatedat TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
 
 
 CREATE TABLE category (

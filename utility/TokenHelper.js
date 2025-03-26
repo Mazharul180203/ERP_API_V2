@@ -6,6 +6,11 @@ export const EncodeToken = (email, user_id) => {
     return jwt.sign(PAYLOAD, JWT_SECRET, ACCESS_TOKEN_EXPIRY);
 };
 
+export const GenerateRefreshToken = (email, user_id) => {
+    return jwt.sign(
+        {email, user_id}, JWT_SECRET, REFRESH_TOKEN_EXPIRY);
+};
+
 export const DecodeToken = (token) => {
     try {
         return jwt.verify(token, JWT_SECRET);
@@ -14,11 +19,4 @@ export const DecodeToken = (token) => {
     }
 };
 
-export const GenerateRefreshToken = (email, user_id) => {
-    return jwt.sign(
-        { email, user_id },
-        JWT_SECRET,
-        { expiresIn: REFRESH_TOKEN_EXPIRY }
-    );
-};
 
