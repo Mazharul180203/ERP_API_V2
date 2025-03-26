@@ -1,4 +1,5 @@
 import {RefreshtokenService, RegistrationService, VerifyLoginService} from '../services/AuthService.js'
+import {DecodeToken} from "../utility/TokenHelper.js";
 
 
 export const Registration = async (req,res) =>{
@@ -33,11 +34,19 @@ export const refreshtoken = async (req,res) =>{
 }
 export const AuthDestroy=async(req,res)=>{
     try {
-        let cookieOptions = {
-            expires: new Date(Date.now()-2*24*60*60*1000),
-            httpOnly: false
-        };
-        res.cookie('token', '', cookieOptions,{ httpOnly: true, sameSite: 'strict'});
+        const refreshToken = req.cookies.refreshToken;
+        if (refreshToken) {
+            const decoded = DecodeToken(refreshToken);
+            if (decoded) {
+                await pool.query(
+                    'DELETE FROM user_tokens WHERE refreshtoken = $1 AND userid = $2',
+                    [refreshToken, decoded.user_id]
+                );
+            }
+        }
+        res.clearCookie('token');
+        res.clearCookie('refreshToken');
+
         return res.status(200).json({ status: "success", message:"Successfully LogOut.."});
     } catch (error) {
         return res.status(500).json({ status: "fail", error: error.message || 'Internal Server Error' });
