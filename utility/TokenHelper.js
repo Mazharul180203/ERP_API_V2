@@ -1,19 +1,24 @@
 import jwt from 'jsonwebtoken';
+import {JWT_SECRET, ACCESS_TOKEN_EXPIRY, REFRESH_TOKEN_EXPIRY } from '../config/config.js'
 
 export const EncodeToken = (email, user_id) => {
-    const KEY = "123-ABC-XYZ-123-ABC-XYZ";
-    const EXPIRE = { expiresIn: '48h' };
     const PAYLOAD = { email, user_id };
-    return jwt.sign(PAYLOAD, KEY, EXPIRE);
+    return jwt.sign(PAYLOAD, JWT_SECRET, ACCESS_TOKEN_EXPIRY);
 };
 
 export const DecodeToken = (token) => {
     try {
-        const KEY = "123-ABC-XYZ-123-ABC-XYZ";
-        return jwt.verify(token, KEY);
+        return jwt.verify(token, JWT_SECRET);
     } catch (error) {
         return null;
     }
 };
 
+export const GenerateRefreshToken = (email, user_id) => {
+    return jwt.sign(
+        { email, user_id },
+        JWT_SECRET,
+        { expiresIn: REFRESH_TOKEN_EXPIRY }
+    );
+};
 
